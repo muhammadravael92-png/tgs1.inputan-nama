@@ -1,0 +1,30 @@
+name: Build C++ to EXE
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest  # Menggunakan runner Windows agar bisa menghasilkan .exe
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Compile with MSBuild (atau gunakan GCC/MinGW)
+      run: |
+        # Contoh jika menggunakan MSBuild (Visual Studio)
+        # Atau Anda bisa menggantinya dengan perintah g++ jika menginstal MinGW
+        cl main.cpp /Fe:app.exe
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows-Executable
+        path: app.exe
